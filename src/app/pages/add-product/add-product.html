@@ -1,0 +1,41 @@
+<div class="max-w-6xl mx-auto mt-6 px-4">
+  <h2 class="text-3xl font-bold mb-6 text-blue-700">Thêm Product</h2>
+
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="submitForm()"
+    class="flex flex-col gap-4 w-96 mx-auto text-left"
+  >
+    <div class="flex flex-col gap-1">
+      <label class="font-semibold">Tên sản phẩm</label>
+      <input type="text" formControlName="name" class="border border-gray-300 p-2 rounded" />
+      @if (name?.invalid && name?.touched) {
+        <p class="text-red-500 text-sm">Tên sản phẩm là bắt buộc</p>
+      }
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="font-semibold">Giá</label>
+      <input type="number" formControlName="price" class="border border-gray-300 p-2 rounded" />
+      @if (price?.invalid && price?.touched) {
+        <p class="text-red-500 text-sm">Giá phải lớn hơn 0</p>
+      }
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="font-semibold">Danh mục</label>
+      <input type="text" formControlName="category" class="border border-gray-300 p-2 rounded" />
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="productForm.invalid"
+      class="bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mt-2"
+    >
+      Thêm sản phẩm
+    </button>
+  </form>
+
+  <h3 class="mt-6 font-bold">Dữ liệu Form Realtime:</h3>
+  <pre class="bg-gray-100 p-4 rounded w-96 mx-auto text-left">{{ productForm.value | json }}</pre>
+</div>

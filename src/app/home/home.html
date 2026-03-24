@@ -1,2 +1,50 @@
-<p>Xin chào Angular</p>
-<p>Tôi đang học Angular Framework</p>
+<div class="max-w-6xl mx-auto mt-6 px-4">
+  <h2 class="text-3xl font-bold mb-6 text-center text-green-700">Danh sách Sản Phẩm</h2>
+
+  @if (loading) {
+    <p class="text-center text-blue-500 font-bold mb-4">Đang tải dữ liệu từ Server...</p>
+  }
+  @if (error) {
+    <p class="text-center text-red-500 font-bold mb-4">{{ error }}</p>
+  }
+  @if (!loading && products.length === 0 && !error) {
+    <p class="text-center text-gray-500 font-bold mt-10 text-xl">Chưa có sản phẩm nào</p>
+  }
+
+  @if (products.length > 0) {
+    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+      <table class="w-full text-sm text-left text-gray-700">
+        <thead class="text-xs text-white uppercase bg-green-600">
+          <tr>
+            <th scope="col" class="px-6 py-3">STT</th>
+            <th scope="col" class="px-6 py-3">Mã SP</th>
+            <th scope="col" class="px-6 py-3">Tên sản phẩm</th>
+            <th scope="col" class="px-6 py-3 text-center">Giá</th>
+            <th scope="col" class="px-6 py-3">Danh mục</th>
+            <th scope="col" class="px-6 py-3 text-center">Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of products; track product.id; let i = $index) {
+            <tr class="bg-white border-b hover:bg-gray-50">
+              <td class="px-6 py-4 font-medium">{{ i + 1 }}</td>
+              <td class="px-6 py-4 text-gray-500">{{ product.id }}</td>
+              <td class="px-6 py-4 font-bold text-gray-900">{{ product.name }}</td>
+              <td class="px-6 py-4 text-center font-bold text-red-600">{{ product.price }} VNĐ</td>
+              <td class="px-6 py-4">{{ product.category }}</td>
+              <td class="px-6 py-4 text-center">
+                <button
+                  (click)="deleteProduct(product.id)"
+                  [disabled]="deletingId === product.id"
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded disabled:bg-gray-400"
+                >
+                  {{ deletingId === product.id ? 'Đang xóa...' : 'Xóa' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

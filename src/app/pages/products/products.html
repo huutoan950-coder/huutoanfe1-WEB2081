@@ -1,44 +1,62 @@
 <div class="max-w-6xl mx-auto mt-6 px-4">
   <h2 class="text-3xl font-bold mb-6 text-center text-blue-700">Danh sách Truyện Tranh</h2>
 
-  @if (stories.length === 0) {
-    <p class="text-center text-red-500 text-xl font-bold mt-10">Không có truyện nào</p>
-  } @else {
+  @if (loading) {
+    <p class="text-center text-blue-500 font-bold mb-4">Đang tải dữ liệu từ Server...</p>
+  }
+  @if (error) {
+    <p class="text-center text-red-500 font-bold mb-4">{{ error }}</p>
+  }
+  @if (!loading && stories.length === 0 && !error) {
+    <p class="text-center text-gray-500 font-bold mt-10 text-xl">Không có truyện nào</p>
+  }
+
+  @if (stories.length > 0) {
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-700">
         <thead class="text-xs text-white uppercase bg-blue-600">
           <tr>
             <th scope="col" class="px-6 py-3">STT</th>
-            <th scope="col" class="px-6 py-3">Hình ảnh</th>
+            <th scope="col" class="px-6 py-3 text-center">Hình ảnh</th>
             <th scope="col" class="px-6 py-3">Tên truyện</th>
             <th scope="col" class="px-6 py-3">Tác giả</th>
             <th scope="col" class="px-6 py-3">Thể loại</th>
-            <th scope="col" class="px-6 py-3">Năm phát hành</th>
-            <th scope="col" class="px-6 py-3">Lượt xem</th>
+            <th scope="col" class="px-6 py-3 text-center">Năm phát hành</th>
+            <th scope="col" class="px-6 py-3 text-center">Lượt xem</th>
+            <th scope="col" class="px-6 py-3 text-center">Hành động</th>
           </tr>
         </thead>
         <tbody>
-          @for (story of stories; track story.name; let i = $index) {
+          @for (story of stories; track story.id; let i = $index) {
             <tr class="bg-white border-b hover:bg-gray-50">
               <td class="px-6 py-4 font-medium">{{ i + 1 }}</td>
               <td class="px-6 py-4">
                 <img
                   [src]="story.image"
-                  alt="cover"
-                  class="w-16 h-24 object-cover rounded shadow-sm"
+                  [alt]="story.name"
+                  class="w-16 h-24 object-cover mx-auto rounded shadow-sm"
                 />
               </td>
               <td class="px-6 py-4 font-bold text-gray-900">{{ story.name }}</td>
               <td class="px-6 py-4">{{ story.author }}</td>
               <td class="px-6 py-4">{{ story.genre }}</td>
-              <td class="px-6 py-4">{{ story.year }}</td>
-              <td class="px-6 py-4 font-semibold">
+              <td class="px-6 py-4 text-center">{{ story.year }}</td>
+              <td class="px-6 py-4 text-center font-semibold">
                 {{ story.views }}
                 @if (story.views > 90000) {
                   <span class="ml-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded"
                     >HOT</span
                   >
                 }
+              </td>
+              <td class="px-6 py-4 text-center">
+                <button
+                  (click)="deleteStory(story.id)"
+                  [disabled]="deletingId === story.id"
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded disabled:bg-gray-400"
+                >
+                  {{ deletingId === story.id ? 'Đang xóa...' : 'Xóa' }}
+                </button>
               </td>
             </tr>
           }

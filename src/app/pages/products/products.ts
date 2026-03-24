@@ -1,4 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+export interface Story {
+  id: string;
+  name: string;
+  author: string;
+  year: number;
+  genre: string;
+  image: string;
+  views: number;
+}
 
 @Component({
   selector: 'app-products',
@@ -6,34 +17,54 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './products.html',
 })
-export class Products {
-  stories = [
-    {
-      name: 'Dragon Ball',
-      author: 'Akira Toriyama',
-      year: 1984,
-      genre: 'Hành động, Võ thuật',
-      image:
-        'https://th.bing.com/th/id/R.a188e2ca3724e5deb9b74c29cf58fc6c?rik=DRAnEpYK3a7u1A&pid=ImgRaw&r=0',
-      views: 150000,
-    },
-    {
-      name: 'Attack On Titan',
-      author: 'Hajime Isayama',
-      year: 2009,
-      genre: 'Hành động, Kịch tính',
-      image:
-        'https://tse2.mm.bing.net/th/id/OIP.aaooR5a82ubZ8XvEbh01EAHaKJ?rs=1&pid=ImgDetMain&o=7&rm=3',
-      views: 85000,
-    },
-    {
-      name: 'Bleach',
-      author: 'Tite Kubo',
-      year: 2001,
-      genre: 'Hành động, Siêu nhiên',
-      image:
-        'https://th.bing.com/th/id/OIP.E-J1UC_go8izCXI5unEv8AHaKX?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3',
-      views: 95000,
-    },
-  ];
+export class Products implements OnInit {
+  stories: Story[] = [];
+  loading = false;
+  error = '';
+  deletingId: string | null = null;
+
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  ngOnInit() {
+    this.getStories();
+  }
+
+  getStories() {
+    this.loading = true;
+    this.error = '';
+
+    this.http.get<Story[]>('http://localhost:3000/stories').subscribe({
+      next: (data) => {
+        this.stories = data;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.error = 'Không thể kết nối đến Server để tải dữ liệu';
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  deleteStory(id: string) {
+    if (!confirm('Bạn có chắc chắn muốn xóa cuốn truyện này không?')) return;
+
+    this.deletingId = id;
+    this.http.delete(`http://localhost:3000/stories/${id}`).subscribe({
+      next: () => {
+        this.stories = this.stories.filter((story) => story.id !== id);
+        this.deletingId = null;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        alert('Xóa thất bại!');
+        this.deletingId = null;
+        this.cdr.detectChanges();
+      },
+    });
+  }
 }

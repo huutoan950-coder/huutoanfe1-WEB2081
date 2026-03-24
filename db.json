@@ -1,29 +1,27 @@
 {
   "stories": [
     {
-      "title": "hihi",
+      "id": "1",
+      "name": "Dragon Ball",
+      "author": "Akira Toriyama",
+      "year": 1984,
+      "genre": "Hành động, Võ thuật",
+      "image": "https://th.bing.com/th/id/R.a188e2ca3724e5deb9b74c29cf58fc6c?rik=DRAnEpYK3a7u1A&pid=ImgRaw&r=0",
+      "views": 150000
+    },
+    {
+      "title": "hihiih",
       "author": "huutoan",
-      "views": 20,
-      "id": 1
-    },
-    {
-      "title": "hiiihih",
-      "author": "htoannn",
-      "views": 5000,
-      "id": 2
-    },
-    {
-      "title": "hihiiii",
-      "author": "yttttyyy",
-      "views": 15,
-      "id": 3
-    },
-    {
-      "title": "hihiihih",
-      "author": "htoanee",
-      "views": 50,
-      "id": 4
+      "views": 150000,
+      "id": "QO1y7zv"
     }
   ],
-  "products": []
+  "products": [
+    {
+      "name": "htoane",
+      "price": 300000,
+      "category": "hihi",
+      "id": 1
+    }
+  ]
 }

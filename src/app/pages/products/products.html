@@ -50,10 +50,17 @@
                 }
               </td>
               <td class="px-6 py-4 text-center">
+                <a
+                  [routerLink]="['/edit', story.id]"
+                  class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded mr-2 inline-block"
+                >
+                  Sửa
+                </a>
+
                 <button
                   (click)="deleteStory(story.id)"
                   [disabled]="deletingId === story.id"
-                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded disabled:bg-gray-400"
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded disabled:bg-gray-400 inline-block"
                 >
                   {{ deletingId === story.id ? 'Đang xóa...' : 'Xóa' }}
                 </button>

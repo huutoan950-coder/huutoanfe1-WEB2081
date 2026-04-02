@@ -1,0 +1,46 @@
+<div class="max-w-md p-6 border rounded shadow mt-10 mx-auto bg-white">
+  <h2 class="text-xl font-bold mb-4 text-yellow-600">Sửa thông tin truyện (Lab 7)</h2>
+
+  @if (msg.content) {
+    <div
+      [class]="msg.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+      class="p-3 mb-4 rounded font-bold"
+    >
+      {{ msg.content }}
+    </div>
+  }
+
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <div class="mb-4">
+      <label class="block font-bold mb-1">Tên truyện:</label>
+      <input formControlName="name" type="text" class="border w-full p-2 rounded" />
+      @if (name?.invalid && name?.touched) {
+        <p class="text-red-500 text-sm mt-1">Bắt buộc nhập, tối thiểu 3 ký tự!</p>
+      }
+    </div>
+
+    <div class="mb-4">
+      <label class="block font-bold mb-1">Tác giả:</label>
+      <input formControlName="author" type="text" class="border w-full p-2 rounded" />
+      @if (author?.invalid && author?.touched) {
+        <p class="text-red-500 text-sm mt-1">Tác giả không được để trống!</p>
+      }
+    </div>
+
+    <div class="mb-4">
+      <label class="block font-bold mb-1">Lượt xem:</label>
+      <input type="number" formControlName="views" class="border w-full p-2 rounded" />
+      @if (views?.invalid && views?.touched) {
+        <p class="text-red-500 text-sm mt-1">Lượt xem không hợp lệ!</p>
+      }
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="editForm.invalid || loading"
+      class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 rounded disabled:bg-gray-400"
+    >
+      {{ loading ? 'Đang lưu...' : 'Cập nhật thay đổi' }}
+    </button>
+  </form>
+</div>

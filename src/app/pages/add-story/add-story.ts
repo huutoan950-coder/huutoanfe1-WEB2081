@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { StoryService } from '../../services/story';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-story',
   standalone: true,
-  imports: [ReactiveFormsModule, JsonPipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './add-story.html',
 })
 export class AddStory {
@@ -18,18 +18,24 @@ export class AddStory {
   constructor(
     private fb: FormBuilder,
     private storyService: StoryService,
+    private router: Router,
   ) {
     this.addForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      author: [''],
-      views: [0, Validators.min(0)],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      author: ['', Validators.required],
+      views: [0, [Validators.required, Validators.min(0)]],
+      image: [''],
+      genre: [''],
+      year: [2026],
     });
   }
 
-  get title() {
-    return this.addForm.get('title');
+  get name() {
+    return this.addForm.get('name');
   }
-
+  get author() {
+    return this.addForm.get('author');
+  }
   get views() {
     return this.addForm.get('views');
   }
@@ -46,12 +52,15 @@ export class AddStory {
     this.storyService.create(data).subscribe({
       next: () => {
         this.loading = false;
-        this.success = 'Thêm truyện thành công';
-        this.addForm.reset({ views: 0 });
+        this.success = 'Thêm truyện thành công! Đang chuyển trang...';
+
+        setTimeout(() => {
+          this.router.navigate(['/products']);
+        }, 1000);
       },
-      error: () => {
+      error: (err: any) => {
         this.loading = false;
-        this.error = 'Có lỗi xảy ra khi kết nối Server';
+        this.error = 'Có lỗi xảy ra khi kết nối Server: ' + err.message;
       },
     });
   }

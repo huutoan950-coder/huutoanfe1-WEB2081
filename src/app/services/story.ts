@@ -5,11 +5,27 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class StoryService {
-  private api = 'http://localhost:3000/stories';
+  private apiUrl = 'http://localhost:3000/stories';
 
   constructor(private http: HttpClient) {}
 
+  getAll() {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
   create(data: any) {
-    return this.http.post(this.api, data);
+    return this.http.post(this.apiUrl, data);
+  }
+
+  remove(id: string | number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  getById(id: string) {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  update(id: string, data: any) {
+    return this.http.patch(`${this.apiUrl}/${id}`, data);
   }
 }

@@ -2,26 +2,33 @@
   "stories": [
     {
       "id": "1",
-      "name": "Dragon Ball",
-      "author": "Akira Toriyama",
-      "year": 1984,
-      "genre": "Hành động, Võ thuật",
-      "image": "https://th.bing.com/th/id/R.a188e2ca3724e5deb9b74c29cf58fc6c?rik=DRAnEpYK3a7u1A&pid=ImgRaw&r=0",
-      "views": 150000
+      "name": "Dế Mèn Phiêu Lưu Ký",
+      "description": "Truyện thiếu nhi kinh điển của Việt Nam.",
+      "author": "Tô Hoài",
+      "views": 300000
     },
     {
-      "title": "hihiih",
-      "author": "huutoan",
-      "views": 150000,
-      "id": "QO1y7zv"
-    }
-  ],
-  "products": [
+      "id": "2",
+      "name": "Số Đỏ",
+      "description": "Tiểu thuyết trào phúng xuất sắc.",
+      "author": "Vũ Trọng Phụng",
+      "views": 3200
+    },
     {
-      "name": "htoane",
-      "price": 300000,
-      "category": "hihi",
-      "id": 1
+      "title": "Doraemon",
+      "author": "Nguyễn Văn Ban",
+      "views": 300000,
+      "id": "tU1ji0O",
+      "name": "Doraemon"
+    },
+    {
+      "name": "Đời",
+      "author": "Nguyễn Hữu Toàn",
+      "views": 200000,
+      "image": "",
+      "genre": "",
+      "year": 2026,
+      "id": "eKft_zA"
     }
   ]
 }

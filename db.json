@@ -1,34 +1,20 @@
 {
-  "stories": [
+  "register": [
     {
-      "id": "1",
-      "name": "Dế Mèn Phiêu Lưu Ký",
-      "description": "Truyện thiếu nhi kinh điển của Việt Nam.",
-      "author": "Tô Hoài",
-      "views": 300000
-    },
-    {
-      "id": "2",
-      "name": "Số Đỏ",
-      "description": "Tiểu thuyết trào phúng xuất sắc.",
-      "author": "Vũ Trọng Phụng",
-      "views": 3200
-    },
-    {
-      "title": "Doraemon",
-      "author": "Nguyễn Văn Ban",
-      "views": 300000,
-      "id": "tU1ji0O",
-      "name": "Doraemon"
-    },
-    {
-      "name": "Đời",
-      "author": "Nguyễn Hữu Toàn",
-      "views": 200000,
-      "image": "",
-      "genre": "",
-      "year": 2026,
-      "id": "eKft_zA"
+      "name": "hihi",
+      "email": "hihi@gmail.com",
+      "password": "123456",
+      "id": 1
     }
-  ]
+  ],
+  "login": [
+    {
+      "email": "hihi@gmail.com",
+      "password": "123456",
+      "id": 1
+    }
+  ],
+  "users": [],
+  "stories": [],
+  "products": []
 }

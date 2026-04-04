@@ -1,44 +1,70 @@
-<div class="max-w-6xl mx-auto mt-6 px-4">
-  <h2 class="text-3xl font-bold mb-6 text-blue-700">Đăng ký tài khoản</h2>
+<div class="p-6 max-w-md mx-auto mt-10 bg-white rounded-xl shadow-lg border">
+  <h1 class="text-2xl font-bold mb-6 text-center text-blue-600">Đăng ký Tài khoản</h1>
 
-  <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="flex flex-col gap-4 w-96">
-    <div class="flex flex-col gap-1">
-      <label class="font-semibold">Username</label>
-      <input type="text" formControlName="username" class="border border-gray-300 p-2 rounded" />
-      @if (username?.invalid && username?.touched) {
-        <p class="text-red-500 text-sm">Username là bắt buộc</p>
-      }
+  @if (success) {
+    <div class="p-3 mb-4 bg-green-100 text-green-700 font-bold rounded text-center">
+      {{ success }}
     </div>
+  }
+  @if (error) {
+    <div class="p-3 mb-4 bg-red-100 text-red-700 font-bold rounded text-center">{{ error }}</div>
+  }
 
-    <div class="flex flex-col gap-1">
-      <label class="font-semibold">Email</label>
-      <input type="email" formControlName="email" class="border border-gray-300 p-2 rounded" />
-      @if (email?.invalid && email?.touched) {
-        <p class="text-red-500 text-sm">Email bắt buộc và phải đúng định dạng</p>
-      }
-    </div>
-
-    <div class="flex flex-col gap-1">
-      <label class="font-semibold">Password</label>
+  <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="space-y-4">
+    <div>
+      <label class="block font-medium mb-1">Tên</label>
       <input
-        type="password"
+        formControlName="name"
+        type="text"
+        class="w-full border rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+      />
+      @if (name?.invalid && name?.touched) {
+        <p class="text-red-500 text-sm mt-1">Tên bắt buộc và tối thiểu 3 ký tự.</p>
+      }
+    </div>
+
+    <div>
+      <label class="block font-medium mb-1">Email</label>
+      <input
+        formControlName="email"
+        type="email"
+        class="w-full border rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+      />
+      @if (email?.invalid && email?.touched) {
+        <p class="text-red-500 text-sm mt-1">Email không hợp lệ hoặc bị bỏ trống.</p>
+      }
+    </div>
+
+    <div>
+      <label class="block font-medium mb-1">Mật khẩu</label>
+      <input
         formControlName="password"
-        class="border border-gray-300 p-2 rounded"
+        type="password"
+        class="w-full border rounded-lg px-3 py-2 outline-none focus:border-blue-500"
       />
       @if (password?.invalid && password?.touched) {
-        <p class="text-red-500 text-sm">Password bắt buộc và phải từ 6 ký tự</p>
+        <p class="text-red-500 text-sm mt-1">Mật khẩu bắt buộc và tối thiểu 6 ký tự.</p>
+      }
+    </div>
+
+    <div>
+      <label class="block font-medium mb-1">Xác nhận mật khẩu</label>
+      <input
+        formControlName="confirmPassword"
+        type="password"
+        class="w-full border rounded-lg px-3 py-2 outline-none focus:border-blue-500"
+      />
+      @if (registerForm.hasError('mismatch') && confirmPassword?.touched) {
+        <p class="text-red-500 text-sm mt-1">Mật khẩu không trùng khớp!</p>
       }
     </div>
 
     <button
       type="submit"
-      [disabled]="registerForm.invalid"
-      class="bg-green-600 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mt-2"
+      [disabled]="registerForm.invalid || loading"
+      class="px-5 py-3 mt-4 bg-blue-600 text-white rounded-lg w-full font-bold transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
     >
-      Đăng ký
+      {{ loading ? 'Đang xử lý...' : 'Đăng ký ngay' }}
     </button>
   </form>
-
-  <h3 class="mt-6 font-bold">Dữ liệu Form Realtime:</h3>
-  <pre class="bg-gray-100 p-4 rounded w-96">{{ registerForm.value | json }}</pre>
 </div>

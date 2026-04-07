@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -9,11 +9,10 @@ import { Router } from '@angular/router';
   imports: [ReactiveFormsModule],
   templateUrl: './login.html',
 })
-export class Login {
+export class Login implements OnInit {
   loginForm: FormGroup;
   loading = false;
   error = '';
-  success = '';
 
   constructor(
     private fb: FormBuilder,
@@ -22,8 +21,14 @@ export class Login {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  ngOnInit() {
+    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+      this.router.navigate(['/']);
+    }
   }
 
   get email() {
@@ -41,23 +46,29 @@ export class Login {
 
     this.loading = true;
     this.error = '';
-    this.success = '';
 
-    this.http.post<any>('http://localhost:3000/login', this.loginForm.value).subscribe({
-      next: (res) => {
-        this.loading = false;
-        this.success = 'Đăng nhập thành công!';
-        if (res && res.accessToken) {
-          localStorage.setItem('token', res.accessToken);
-        }
-        setTimeout(() => {
-          this.router.navigateByUrl('/products');
-        }, 1500);
-      },
-      error: () => {
-        this.loading = false;
-        this.error = 'Sai email hoặc mật khẩu!';
-      },
-    });
+    const data = this.loginForm.value;
+
+    this.http
+      .get<any[]>(`http://localhost:3000/users?email=${data.email}&password=${data.password}`)
+      .subscribe({
+        next: (users) => {
+          this.loading = false;
+
+          if (users.length > 0) {
+            localStorage.setItem('token', 'token-gia-he-thong');
+            localStorage.setItem('email', users[0].email);
+
+            alert('Đăng nhập thành công!');
+            window.location.href = '/';
+          } else {
+            this.error = 'Sai email hoặc mật khẩu!';
+          }
+        },
+        error: () => {
+          this.loading = false;
+          this.error = 'Lỗi kết nối Server!';
+        },
+      });
   }
 }

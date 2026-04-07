@@ -47,11 +47,7 @@ export class Register {
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
-
-    if (password !== confirmPassword) {
-      return { mismatch: true };
-    }
-    return null;
+    return password === confirmPassword ? null : { mismatch: true };
   }
 
   submitForm() {
@@ -66,16 +62,19 @@ export class Register {
 
     const { confirmPassword, ...data } = this.registerForm.value;
 
-    this.http.post('http://localhost:3000/register', data).subscribe({
-      next: () => {
+    this.http.post<any>('http://localhost:3000/users', data).subscribe({
+      next: (res) => {
         this.loading = false;
         this.success = 'Đăng ký thành công!';
 
-        localStorage.setItem('token', 'mock-jwt-token-123456');
+        localStorage.setItem('token', 'token-gia-he-thong');
+
+        localStorage.setItem('email', data.email);
+
         this.registerForm.reset();
 
         setTimeout(() => {
-          this.router.navigateByUrl('/login');
+          window.location.href = '/';
         }, 1500);
       },
       error: () => {
